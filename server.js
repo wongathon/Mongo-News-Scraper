@@ -57,19 +57,20 @@ app.get("/scrape", function(req, res){
   request("https://www.nytimes.com/", function(error, response, html) {    
     var $ = cheerio.load(html);
 
-    console.log("working?");
-
     $("article.story").each(function (i, element){
       var title = $(this).find('.story-heading').find('a').text();
+      var link = $(this).find('.story-heading').find('a').attr("href");
       var subtitle = $(element).find('p.summary').text().trim();
 
-      if (subtitle == null){
+      if (subtitle == ""){
+        subtitle = [];
         var subList = $(element).find('ul').find('li').each(function(i, element) {
           subtitle.push($(element).text().trim());
         });
       }
       results.push({
         title: title,
+        link: link,
         subtitle: subtitle
       });
       articleCount++;
@@ -79,14 +80,14 @@ app.get("/scrape", function(req, res){
   });
 });
 
-//main get 
+//saved articles get 
 app.get("/articles", function(req, res){
 
   Article.find({}, function(err, doc){
     if (err) {
       res.send(err);
     } else {
-      res.render("index", doc);
+      res.render("artnotes", doc);
     }
   });
 
@@ -105,6 +106,20 @@ app.get("/articles/:id", function(req, res) {
       }
     });
 
+});
+
+app.post("/api/save/article" function(req, res){
+  var newArticle = new Article(req.body);
+
+  newArticle.save(function(err, doc){
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('item saved')
+    }
+  })
+
+  res.redirect("/");
 });
 
 //post note or replace note

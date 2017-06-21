@@ -1,0 +1,26 @@
+.jumbotron {
+    background-image: url(../img/newspapers.jpeg);
+    background-position: 0% 25%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: white;
+}
+
+h4 {
+	margin-top: 0px;
+	margin-bottom: -2px;
+}
+
+a {
+	margin: -3px;
+}
+
+
+.panel-body {
+	padding: 8px;
+}
+
+#scrape-btn {
+	color: white;
+	margin: 6px;
+}

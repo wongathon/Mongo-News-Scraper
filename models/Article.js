@@ -8,9 +8,14 @@ var ArticleSchema = new Schema({
     type: String,
     required: true
   },
-  subtitle: {
+
+  link: {
     type: String,
     required: true
+  },
+
+  subtitle: {
+    type: String
   },
 
   note: {
