@@ -8,6 +8,7 @@
 
   <link rel="stylesheet" href="/css/style.css">
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
 </head>
 <body>
   
@@ -20,13 +21,14 @@
         <ul class="nav navbar-nav navbar-left">
           <li><a href="#">Home</a></li>
           <li><a href="#">Saved Articles</a></li>
+          <li><a class="btn btn-outline-danger btn-lg" id="scrape-btn">Scrape New Articles!</a></li>
         </ul>
-        <button class="btn btn-outline-danger" data-toggle="modal" data-target="#alert-modal" type="">Scrape New Articles!</button>
+
       </div>
     </div>
   </nav>
   <div>
-    {{{body}}}
+    {{{ body }}}
   </div>
   
   <div class="outer">
@@ -41,6 +43,6 @@
   </div>
 
 
-
+  <script src="/app.js"></script>
 </body>
 </html>

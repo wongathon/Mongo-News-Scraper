@@ -1,0 +1,29 @@
+<div class="jumbotron">
+	<h1 class="display-3">Saved Articles</h1>
+	<p class="lead">Your saved articles</p>
+</div>
+
+<div id="articles">
+	<div class="panel panel-default">
+	  <!-- Insert _id somewhere here -->
+	  <div class="panel-heading">{{article.title}}
+			<button id="add-node" type="button" class="btn btn-success">Add Notes</button>
+			<button id="add-node" type="button" class="btn btn-success">Delete Article</button>
+	  </div>
+	  <div class="panel-body">{{article.subtitle}}</div>
+		
+
+	</div>
+	<!-- Modal maker -->
+	
+	{{#each notes}}
+		<div class="panel panel-default">
+		  <!-- Insert _id somewhere here -->
+		  <div class="panel-heading">{{this.title}}
+			<button id="article-save" type="button" class="btn btn-success">Save Article</button>
+		  </div>
+		  <div class="panel-body">{{this.subtitle}}</div>
+		</div>
+	{{/each}}
+</div>
+

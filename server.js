@@ -1,31 +1,36 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
+const logger = require('morgan');
 
 var Note = require("./models/Note.js");
 var Article = require("./models/Article.js");
 
 //Web Scraping items
-var cheerio = require("request");
-var request = require("cheerio");
+var cheerio = require("cheerio");
+var request = require("request");
 //set mongoose to leverage JS ES6 Promises
 mongoose.Promise = Promise;
 
 var app = express();
+
 
 //use bodyparser
 app.use(bodyParser.urlencoded({
   extended: false
 }));
 
+
 //make public a static dir
 app.use(express.static("public"));
+
 
 //Handlebars setup
 var exphbs = require("express-handlebars");
 
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
+
 
 //DB config mongoose
 mongoose.connect("mongodb://localhost");
@@ -41,41 +46,37 @@ db.once("open", function() {
 
 
 //App use routes in ??
-app.get('/scrape', function(req, res){
+app.get("/", function(req, res) {
+  res.render("index");
+});
 
-  request('https://www.nytimes.com/', function(err, res, html){
-    
+app.get("/scrape", function(req, res){
+  var articleCount = 0;
+  var results = [];
+
+  request("https://www.nytimes.com/", function(error, response, html) {    
     var $ = cheerio.load(html);
 
-    $('article.story').each(function (i, element){
+    console.log("working?");
 
-      var result = {};
-
-      result.title = $(this).find('.story-heading').find('a').text();
-      
+    $("article.story").each(function (i, element){
+      var title = $(this).find('.story-heading').find('a').text();
       var subtitle = $(element).find('p.summary').text().trim();
 
-      if (subtitle === null){
+      if (subtitle == null){
         var subList = $(element).find('ul').find('li').each(function(i, element) {
           subtitle.push($(element).text().trim());
         });
       }
-
-      result.subtitle = subtitle;
-
-      var entry = new Article(result);
-
-      entry.save(function(err, doc) {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log(doc);
-        }
+      results.push({
+        title: title,
+        subtitle: subtitle
       });
-
+      articleCount++;
     });  
+    console.log("scrape complete, pulled "+articleCount+ " articles.");
+    res.json(results);
   });
-  res.send("Scrape complete!");
 });
 
 //main get 
@@ -85,7 +86,7 @@ app.get("/articles", function(req, res){
     if (err) {
       res.send(err);
     } else {
-      res.send(doc);
+      res.render("index", doc);
     }
   });
 
@@ -126,9 +127,21 @@ app.post("/articles/:id", function(req, res) {
     }
 
   });
+
+app.delete("/articles/:id", function(req, res) {
+  var _id = req.body._id;
+  Article.findByIdAndRemove(_id, function(){ 
+    res.redirect()
+  });
 });
 
+
+});
+
+
+//Port
+const PORT = process.env.PORT || 3030;
 //listener
-app.listen(3030, function(){
+app.listen(PORT, function(){
   console.log("App running on port 3030!");
 });
