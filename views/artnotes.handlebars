@@ -4,26 +4,19 @@
 </div>
 
 <div id="articles">
+	{{#each articles}}
 	<div class="panel panel-default">
 	  <!-- Insert _id somewhere here -->
-	  <div class="panel-heading">{{article.title}}
-			<button id="add-node" type="button" class="btn btn-success">Add Notes</button>
-			<button id="add-node" type="button" class="btn btn-success">Delete Article</button>
+	  <div class="panel-heading clearfix"><h4><a href={{this.link}}>{{this.title}}</a></h4>
+		    <form action="/articles/delete?_method=DELETE" , method="POST">
+                <input type="hidden" name="_id" value="{{this._id}}"/>
+                <input class="btn btn-danger pull-right" type="submit" value="Delete Article"/>
+            </form>
+			<button id="add-node" type="button" class="btn btn-success pull-right">Add Notes</button>
 	  </div>
-	  <div class="panel-body">{{article.subtitle}}</div>
-		
-
+	  <div class="panel-body">{{this.subtitle}}</div>
 	</div>
-	<!-- Modal maker -->
-	
-	{{#each notes}}
-		<div class="panel panel-default">
-		  <!-- Insert _id somewhere here -->
-		  <div class="panel-heading">{{this.title}}
-			<button id="article-save" type="button" class="btn btn-success">Save Article</button>
-		  </div>
-		  <div class="panel-body">{{this.subtitle}}</div>
-		</div>
 	{{/each}}
+	<!-- Modal maker -->
 </div>
 

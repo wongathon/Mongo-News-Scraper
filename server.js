@@ -2,6 +2,7 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 const logger = require('morgan');
+var methodOverride = require("method-override");
 
 var Note = require("./models/Note.js");
 var Article = require("./models/Article.js");
@@ -19,6 +20,8 @@ var app = express();
 app.use(bodyParser.urlencoded({
   extended: false
 }));
+
+app.use(methodOverride("_method"));
 
 
 //make public a static dir
@@ -45,7 +48,7 @@ db.once("open", function() {
 })
 
 
-//App use routes in ??
+//APP USE ROUTES
 app.get("/", function(req, res) {
   res.render("index");
 });
@@ -84,13 +87,29 @@ app.get("/scrape", function(req, res){
 app.get("/articles", function(req, res){
 
   Article.find({}, function(err, doc){
+
     if (err) {
       res.send(err);
     } else {
-      res.render("artnotes", doc);
+      res.render("artnotes", { articles: doc });
     }
   });
 
+});
+
+//Post new article to "saved" on button click
+app.post("/new/article", function(req, res){
+  var newArticle = new Article(req.body);
+
+  newArticle.save(function(err, doc){
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('item saved')
+    }
+  })
+
+  res.redirect("/");
 });
 
 //get article by id to update notes
@@ -107,21 +126,6 @@ app.get("/articles/:id", function(req, res) {
     });
 
 });
-
-app.post("/api/save/article" function(req, res){
-  var newArticle = new Article(req.body);
-
-  newArticle.save(function(err, doc){
-    if (err) {
-      console.log(err);
-    } else {
-      console.log('item saved')
-    }
-  })
-
-  res.redirect("/");
-});
-
 //post note or replace note
 app.post("/articles/:id", function(req, res) {
   var newNote = new Note(req.body);
@@ -142,15 +146,15 @@ app.post("/articles/:id", function(req, res) {
     }
 
   });
-
-app.delete("/articles/:id", function(req, res) {
-  var _id = req.body._id;
-  Article.findByIdAndRemove(_id, function(){ 
-    res.redirect()
-  });
 });
 
 
+//DELETE IT!
+app.delete("/articles/delete", function(req, res) {
+  var _id = req.body._id;
+  Article.findByIdAndRemove(_id, function(){ 
+    res.redirect("/articles");
+  });
 });
 
 
