@@ -18,10 +18,10 @@ var ArticleSchema = new Schema({
     type: String
   },
 
-  note: {
+  notes: [{
     type: Schema.Types.ObjectId,
     ref: "Note"
-  }
+  }]
 
 });
 

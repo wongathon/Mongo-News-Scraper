@@ -3,19 +3,47 @@
 	<p class="lead">Your saved articles</p>
 </div>
 
-<div id="articles">
+<div id="savedArticles">
 	{{#each articles}}
 	<div class="panel panel-default">
 	  <!-- Insert _id somewhere here -->
-	  <div class="panel-heading clearfix"><h4><a href={{this.link}}>{{this.title}}</a></h4>
-		    <form action="/articles/delete?_method=DELETE" , method="POST">
-                <input type="hidden" name="_id" value="{{this._id}}"/>
-                <input class="btn btn-danger pull-right" type="submit" value="Delete Article"/>
-            </form>
-			<button id="add-node" type="button" class="btn btn-success pull-right">Add Notes</button>
+	  <div class="panel-heading clearfix">
+			<div class="col-xs-7 col-md-8">
+	  			<h4><a href={{this.link}}>{{this.title}}</a></h4>
+		   	</div>
+		    <form action="/articles/delete?_method=DELETE"  method="POST">
+          <input type="hidden" name="_id" value="{{this._id}}"/>
+          <input class="btn btn-danger pull-right" id="delete-article" type="submit" value="Delete Article"/>
+         </form>
+			<button id="add-note" type="button" class="btn btn-success pull-right">Add Notes</button>
 	  </div>
 	  <div class="panel-body">{{this.subtitle}}</div>
 	</div>
+	<div class="modal fade" id="artyModal" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<p class="modal-title">Add note for{{this.title}}</p>
+				</div>
+				<div class="modal-body">
+					<ul>
+					{{#each this.notes}}
+						<li><p>{{this.body}}</p></li>
+					{{/each}}
+					</ul>
+					<form action="/articles/{{this._id}}" method="POST">
+						<input type="text" name="body" placeholder="add note here"/>
+						<input type="submit" id="save-note" value="Submit"/>
+					</form> 
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	{{/each}}
 	<!-- Modal maker -->
 </div>

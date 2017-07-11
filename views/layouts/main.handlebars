@@ -4,10 +4,12 @@
   <meta charset="UTF-8">
   <title>Mongo Web Scraper</title>
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
   <link rel="stylesheet" href="/css/style.css">
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 
 </head>
 <body>
@@ -15,7 +17,7 @@
   <nav class="navbar navbar-default">
     <div class="container">
       <div class="navbar-header">
-        <a class="navbar-brand" href="#">Mongo WebScraper</a>
+        <a class="navbar-brand" href="/">Mongo WebScraper</a>
       </div>
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-left">
@@ -34,14 +36,41 @@
     </div>
     
     <div class="outer">
-      <div class="modal fade" id="alert-modal">
-        <div class="modal-dialog">
+
+      <div id="saveModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-sm">
           <div class="modal-content">
-            <h2>Added X New Articles!</h2>
-            <button type="button" class="btn btn-danger" data-dismiss="modal">OK</button>
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4>Article Saved!</h4>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" 
+              data-dismiss="modal">OK</button>
+            </div>
           </div>
         </div>
       </div>
+
+      <div id="notesModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3>Add Notes</h3>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-content">
+              <div id="notesList"></div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default">Save Note</button>
+              <button type="button" class="btn btn-default" 
+              data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 

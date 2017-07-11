@@ -6,6 +6,7 @@ $('#scrape-btn').on('click', function(e){
   }).done(function(data){
 
     $('#articles').empty();
+    $('#helpy').fadeIn(1000);
     for (var i = 0; i < data.length; i++) {
 
       var subArr = data[i].subtitle;
@@ -45,9 +46,16 @@ $(document).on("click", "#article-save", function() {
     data: articleObj
   })
     .done(function(data) {
-      console.log("Doc data:"+data);
       //do modal or alert "Article saved!"
+      $('#saveModal').modal('show');
     });
 
 });
+
+$(document).on("click", "#add-note", function() {
+  $("#artyModal").modal();
+  //make modal with #save-note button. 
+});
+
+
 

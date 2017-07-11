@@ -86,8 +86,9 @@ app.get("/scrape", function(req, res){
 //saved articles get 
 app.get("/articles", function(req, res){
 
-  Article.find({}, function(err, doc){
-
+  Article.find({})
+  .populate("notes")
+  .exec(function(err, doc){
     if (err) {
       res.send(err);
     } else {
@@ -112,35 +113,24 @@ app.post("/new/article", function(req, res){
   res.redirect("/");
 });
 
-//get article by id to update notes
-app.get("/articles/:id", function(req, res) {
-
-  Article.findOne({ "_id": req.params.id })
-    .populate("notes")
-    .exec(function(err, doc){
-      if (err) {
-        res.send(err);
-      } else {
-        res.send(doc);
-      }
-    });
-
-});
 //post note or replace note
 app.post("/articles/:id", function(req, res) {
+
+  console.log("REQ", req.body);
   var newNote = new Note(req.body);
 
   newNote.save(function(err, doc){
     if (err) {
       res.send(err);
     } else {
-
-      Article.findOneAndUpdate({ "_id" : req.params.id }, {"note": doc._id })
+      console.log("DOC", doc);
+      //maybe this works? _id or id?
+      Article.findOneAndUpdate({ "_id" : req.params.id }, { $push: {"notes": doc._id } }, {new: true})
       .exec(function(err, doc) {
         if (err) {
           res.send(err);
         } else {
-          res.send(doc);
+          res.redirect("/articles");
         }
       });
     }
