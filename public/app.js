@@ -53,7 +53,8 @@ $(document).on("click", "#article-save", function() {
 });
 
 $(document).on("click", "#add-note", function() {
-  $("#artyModal").modal();
+  var key = $(this).attr('name');
+  $("#artyModal" + key).modal();
   //make modal with #save-note button. 
 });
 

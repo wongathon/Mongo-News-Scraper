@@ -142,7 +142,6 @@ app.post("/articles/:id", function(req, res) {
   });
 });
 
-
 //DELETE IT!
 app.delete("/articles/delete", function(req, res) {
   var _id = req.body._id;

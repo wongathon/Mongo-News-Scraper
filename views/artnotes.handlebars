@@ -12,19 +12,20 @@
 	  			<h4><a href={{this.link}}>{{this.title}}</a></h4>
 		   	</div>
 		    <form action="/articles/delete?_method=DELETE"  method="POST">
-          <input type="hidden" name="_id" value="{{this._id}}"/>
-          <input class="btn btn-danger pull-right" id="delete-article" type="submit" value="Delete Article"/>
-         </form>
-			<button id="add-note" type="button" class="btn btn-success pull-right">Add Notes</button>
+          		<input type="hidden" name="_id" value="{{this._id}}"/>
+          		<input class="btn btn-danger pull-right" id="delete-article" type="submit" value="Delete Article"/>
+         	</form>
+			<button id="add-note" name="{{@key}}" type="button" class="btn btn-success pull-right">Add Notes</button>
 	  </div>
 	  <div class="panel-body">{{this.subtitle}}</div>
 	</div>
-	<div class="modal fade" id="artyModal" role="dialog">
+
+	<div class="modal fade" id="artyModal{{@key}}" role="dialog">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<p class="modal-title">Add note for{{this.title}}</p>
+					<p class="modal-title">Add note for {{this.title}}</p>
 				</div>
 				<div class="modal-body">
 					<ul>
