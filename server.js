@@ -36,7 +36,11 @@ app.set("view engine", "handlebars");
 
 
 //DB config mongoose
-mongoose.connect("mongodb://localhost");
+if (process.env.MONGODB_URI) {
+  mongoose.connect(process.env.MONGODB_URI)
+} else {
+  mongoose.connect("mongodb://localhost/nytScraper")
+}
 var db = mongoose.connection;
 
 db.on("error", function(error) {
